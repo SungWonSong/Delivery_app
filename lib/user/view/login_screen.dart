@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final storage = FlutterSecureStorage();
     final dio = Dio();
 
-    //localhost
+    // localhost
     final emulatorIp = '10.0.2.2:3000';
     final simulatorIp = '127.0.0.1:3000';
 
@@ -34,10 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return DefaultLayout(
       child: SingleChildScrollView(
+        // SingleChildScrollView를 통해서 올라오는 키보드에 따라 오류가 안걸리게 된다.
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        // onDrag시에 올라오는 키보드를 드래그를 함으로써 자동으로 내려가게 한다.
         child: SafeArea(
           top: true,
           bottom: false,
+          // SafeArea 사용시 안보이는 부분에 대한 최적의 부분 제공
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -50,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   'asset/img/misc/logo.png',
                   width: MediaQuery.of(context).size.width / 3 * 2,
                 ),
+              // 현재 화면의 너비 2/3 크기를 가진다. width:폭(가로) / height: 높이(세로)
                 CustomTextFormField(
                   hintText: '이메일을 입력해주세요.',
                   errorText: '에러가 있습니다.',
@@ -153,6 +157,7 @@ class _SubTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       '이메일과 비밀번호를 입력해서 로그인 해주세요!\n오늘도 성공적인 주문이 되길 :)',
+      // \n은 줄바꿈을 의미한다, String 값안에서 줄바꿈가능
       style: TextStyle(
         fontSize: 16,
         color: BODY_TEXT_COLOR,

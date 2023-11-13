@@ -28,10 +28,10 @@ class CustomTextFormField extends StatelessWidget {
 
     return TextFormField(
       cursorColor: PRIMARY_COLOR,
-      // 비밀번호 입력할때
       obscureText: obscureText,
-      // 자동으로 focus 되는거
+      // 비밀번호 입력할때
       autofocus: autofocus,
+      // 자동으로 focus 되는거
       onChanged: onChanged,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(20),
