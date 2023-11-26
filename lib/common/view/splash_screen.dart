@@ -17,7 +17,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    // initState는 await할 수 없다.
     super.initState();
+
 
     //deleteToken();
     checkToken();
@@ -27,10 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
     await storage.deleteAll();
     }
 
+
     void checkToken() async {
       final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
       final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
 
       if (refreshToken == null || accessToken == null) {
         Navigator.of(context).pushAndRemoveUntil(
@@ -49,6 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     }
 
+  // checkToken 함수를 통해 login이냐 rootTab이냐를 결정 / 유효성 검증도 필요하기에 추후 코드 작성 할것
     @override
     Widget build(BuildContext context) {
       return DefaultLayout(
