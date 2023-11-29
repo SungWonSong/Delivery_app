@@ -1,6 +1,7 @@
 import 'package:actual_project/common/const/data.dart';
 import 'package:actual_project/common/layout/default_layout.dart';
 import 'package:actual_project/common/view/root_tab.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../user/view/login_screen.dart';
@@ -25,33 +26,46 @@ class _SplashScreenState extends State<SplashScreen> {
     checkToken();
   }
 
-    void deleteToken() async {
+  void deleteToken() async {
     await storage.deleteAll();
+  }
+
+
+  void checkToken() async {
+    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
+    final dio = Dio();
+
+    try {
+      final resp = await dio.post(
+        'http://$ip/auth/token',
+        options: Options(
+          headers: {
+            'authorization': 'Bearer $refreshToken',
+          },
+        ),
+      );
+
+      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
+      // refreshToken이 accessToken 갱신해서 -> 이제는 5분이 지나도 splashScreen에서 오류가 뜨지 않는다.강의 중간에 가면 자동갱신 추가된다.
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => RootTab(),
+        ),
+            (route) => false,
+      );
+    } catch (e) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => LoginScreen(),
+        ),
+            (route) => false,
+      );
     }
-
-
-    void checkToken() async {
-      final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
-      final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
-      if (refreshToken == null || accessToken == null) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => LoginScreen(),
-          ),
-              (route) => false,
-        );
-      } else {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => RootTab(),
-          ),
-              (route) => false,
-        );
-      }
-    }
-
-  // checkToken 함수를 통해 login이냐 rootTab이냐를 결정 / 유효성 검증도 필요하기에 추후 코드 작성 할것
+  }
+    // checkToken 함수를 통해 login이냐 rootTab이냐를 결정 / 유효성 검증도 필요하기에 추후 코드 작성 할것
     @override
     Widget build(BuildContext context) {
       return DefaultLayout(

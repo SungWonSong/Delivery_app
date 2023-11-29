@@ -14,6 +14,7 @@ class _RootTabState extends State<RootTab>
     with
         SingleTickerProviderStateMixin {
   late TabController controller;
+  // late를 사용하는 목적 : late키워드는 값의 초기화를 뒤로 미루지만, 개발자가 null을 실수로 사용하는것을 막아준다.
 
   int index = 0;
 
@@ -22,6 +23,7 @@ class _RootTabState extends State<RootTab>
     super.initState();
 
     controller = TabController(length: 4, vsync: this);
+    // this를 사용할때에는 SingleTickerProviderStateMixin을 무조건 넣어줘야 한다.
 
     controller.addListener(tabListener);
   }
@@ -44,6 +46,7 @@ class _RootTabState extends State<RootTab>
       title: '코팩 딜리버리',
       child: TabBarView(
         physics: NeverScrollableScrollPhysics(),
+          // physics에 위의 값을 넣으면 옆으로 스와이프가 되지 않는다.
           controller: controller,
           children: [
             RestaurantScreen(),
@@ -58,9 +61,11 @@ class _RootTabState extends State<RootTab>
         selectedFontSize: 10,
         unselectedFontSize: 10,
         type: BottomNavigationBarType.fixed,
+        //type은 values, shifting, fixed로 animation효과라 생각하면 좋다.
+
         onTap: (int index) {
           controller.animateTo(index);
-        },
+        }, // set
         currentIndex: index,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: '홈'),
