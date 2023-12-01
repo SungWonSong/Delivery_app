@@ -41,34 +41,11 @@ class RestaurantScreen extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) {
                   final item = snapshot.data![index];
+                  final pItem = RestaurantModel.fromJson(json:item
+                  ); //fromJson이라는 factory constructor를 사용하여 modeling 적용
                   //parsed
-                  final pItem = RestaurantModel(
-                    id: item['id'],
-                    name: item['name'],
-                    thumbUrl: 'http://$ip${item['thumbUrl']}',
-                    tags: List<String>.from(item['tags']),
-                    priceRange: RestaurantPriceRange.values
-                        .firstWhere((e) => e.name == item['priceRange']),
-                    //
-                    ratings: item['ratings'],
-                    ratingsCount: item['ratingsCount'],
-                    deliveryTime: item['deliveryTime'],
-                    deliveryFee: item['deliveryFee'],
-                  );
-                  return RestaurantCard(
-                    image: Image.network(
-                      pItem.thumbUrl,
-                      fit: BoxFit.cover,
-                    ),
-                    name: pItem.name,
-                    tags: pItem.tags,
-                    //오류 List<String>으로 받아야되는데 dynamic으로 되어있어서, List<String>.from을 통해 변환
-
-                    ratingsCount: pItem.ratingsCount,
-                    deliveryTime: pItem.deliveryTime,
-                    deliveryFee: pItem.deliveryFee,
-                    ratings: pItem.ratings,
-                  );
+                  return RestaurantCard.fromModel(model: pItem,
+                  ); //fromModel이라는 factory constructor를 사용하여 modeling 적용
                 },
                 separatorBuilder: (_, index) {
                   return SizedBox(height: 16.0);
