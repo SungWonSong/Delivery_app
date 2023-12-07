@@ -40,7 +40,6 @@ class RestaurantModel {
         tags: List<String>.from(json['tags']),
     priceRange: RestaurantPriceRange.values
         .firstWhere((e) => e.name == json['priceRange']),
-    //
     ratings: json['ratings'],
     ratingsCount: json['ratingsCount'],
     deliveryTime: json['deliveryTime'],
