@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     final rawString = '$username:$password';
 
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-                    // utf8은 일반적으로쓰는 인코딩 코덱, 이부분은 반복사용
+                    // utf8은 일반적으로쓰는 인코딩 코덱, 이부분은 반복사용(Base64로 인코딩하는법)
 
                     String token = stringToBase64.encode(rawString);
 

@@ -12,6 +12,7 @@ class RestaurantScreen extends StatelessWidget {
     final dio = Dio();
 
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    //이 서버에서는 ACCESS_TOKEN의 유효기간은 고의로 5분으로 설정
 
     final resp = await dio.post(
       'http://$ip/auth/login',
@@ -45,7 +46,7 @@ class RestaurantScreen extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) {
                   final item = snapshot.data![index];
-                  final pItem = RestaurantModel.fromJson(json:item
+                  final pItem = RestaurantModel.fromJson(item
                   ); //fromJson이라는 factory constructor를 사용하여 modeling 적용
                   //parsed
                   return GestureDetector(

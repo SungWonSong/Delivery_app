@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void checkToken() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    // 만약에 꺼지지 않은채로 하루이상 켜져 있으면 refresh token 검증은? 아직 하지 않았다 나중에
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
     final dio = Dio();
